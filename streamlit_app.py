@@ -318,7 +318,7 @@ dx = (dx.astype(float) * rates.reshape(1,-1)).dropna(axis=1).sum(axis=1).to_fram
 dx["Date"] = pd.to_datetime(dx["Date"])
 
 st.line_chart(
-    dx.reset_index(),
+    dx,
     x='Date',
     y='CME_FED_WATCH'
 )
