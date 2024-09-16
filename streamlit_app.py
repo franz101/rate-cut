@@ -187,7 +187,7 @@ st.header("Current Rates")
 col1, col2 = st.columns(2)
 col1.metric("Current Fed Rate", f"{get_fedrate_ib():.2f}%")
 col2.metric("SOFR Implied Rate for September", f"{sofr_rate:.2f}%")
-@
+
 async def print_data():
   market_1_data = {}
   for desc, ticker_id in rate_target_dict.items():
