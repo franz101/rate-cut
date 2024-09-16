@@ -311,17 +311,14 @@ asyncio.run(print_data())
 dx =  pd.read_csv("FedMeetingHistory_20240916.csv")
 columns = dx.iloc[0,:].to_list()
 dx.columns = columns
-dx = dx.iloc[1:]
-dm = dx.melt(
-    id_vars=["Date"],
-)
-dm["rate"] = dm["variable"].str.extract(r".+\-(\d+)")
+dx = dx.iloc[1:,:columns[2:].index("(0-25)")]
+dx = dx.set_index("Date",drop=True)
+rates = ((dx.columns.str.extract(r".+\-(\d+)").astype(float) + dx.columns.str.extract(r".(\d+)").astype(float))/2).values
+dx = (dx.astype(float) * rates.reshape(1,-1)).dropna(axis=1).sum(axis=1).to_frame().rename(columns={0:"CME_FED_WATCH"})
+
 
 st.line_chart(
-    dx.melt(
-    id_vars=["Date"],
-).dropna(),
-    x='Date',
-    y='value',
-    color='rate',
+    dx,
+    x=dx.index,
+    y='fed_rate'
 )
