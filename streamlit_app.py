@@ -133,7 +133,7 @@ async def forecast_trader_get_bid_ask(ticker_id):
             return float(value.replace(",", "")) if value else float('nan')
         except (ValueError, TypeError):
             return float('nan')
-
+      print(contract_data)
       bid = safe_float_conversion(contract_data.get("84", "nan"))
       ask = safe_float_conversion(contract_data.get("86", "nan"))
       bid_size = safe_float_conversion(contract_data.get("88", "nan"))
@@ -204,36 +204,36 @@ async def print_data():
   # Organize the data into a comparison table
   comparison_table = {
       'Rate Outcome': [],
-      'Market 1': [],
-      'Market 2': [],
-      'Market 3': []
+      'ForecastTrader': [],
+      'Polymarket': [],
+      'Kalshi': []
   }
 
 
   rate_outcomes = [
       {
           'Rate Outcome': 'Cut >25bps',
-          'Market 1': ["FF Sep18'24 4.875 ABOVE"],
-          'Market 2': ['Fed decreases interest rates by 50+ bps after September 2024 meeting?'],
-          'Market 3': ['Cut >25bps']
+          'ForecastTrader': ["FF Sep18'24 4.875 ABOVE"],
+          'Polymarket': ['Fed decreases interest rates by 50+ bps after September 2024 meeting?'],
+          'Kalshi': ['Cut >25bps']
       },
       {
           'Rate Outcome': 'Cut 25bps',
-          'Market 1': ["FF Sep18'24 5.125 ABOVE"],
-          'Market 2': ['Fed decreases interest rates by 25 bps after September 2024 meeting?'],
-          'Market 3': ['Cut 25bps']
+          'ForecastTrader': ["FF Sep18'24 5.125 ABOVE"],
+          'Polymarket': ['Fed decreases interest rates by 25 bps after September 2024 meeting?'],
+          'Kalshi': ['Cut 25bps']
       },
       {
           'Rate Outcome': 'No Change',
-          'Market 1': ["FF Sep18'24 5.375 ABOVE"],
-          'Market 2': ['No change in Fed interest rates after 2024 September meeting?'],
-          'Market 3': ['Hike 0bps']
+          'ForecastTrader': ["FF Sep18'24 5.375 ABOVE"],
+          'Polymarket': ['No change in Fed interest rates after 2024 September meeting?'],
+          'Kalshi': ['Hike 0bps']
       },
       {
           'Rate Outcome': 'Hike 25bps or more',
-          'Market 1': ["FF Sep18'24 5.375 BELOW_OR_EQUAL", "FF Sep18'24 5.125 BELOW_OR_EQUAL"],
-          'Market 2': ['Fed increases interest rates by 25+ bps after September 2024 meeting?'],
-          'Market 3': ['Hike 25bps', 'Hike >25bps']
+          'ForecastTrader': ["FF Sep18'24 5.375 BELOW_OR_EQUAL", "FF Sep18'24 5.125 BELOW_OR_EQUAL"],
+          'Polymarket': ['Fed increases interest rates by 25+ bps after September 2024 meeting?'],
+          'Kalshi': ['Hike 25bps', 'Hike >25bps']
       }
   ]
 
@@ -244,37 +244,37 @@ async def print_data():
       
       # Fetch Market 1 data
       market_1_entries = []
-      for desc in outcome['Market 1']:
+      for desc in outcome['ForecastTrader']:
           data = market_1_data[desc]
           market_1_entries.append({desc: data})
-      comparison_table['Market 1'].append(market_1_entries)
+      comparison_table['ForecastTrader'].append(market_1_entries)
       
       # Fetch Market 2 data
       market_2_entries = []
-      for question in outcome['Market 2']:
+      for question in outcome['Polymarket']:
           data = market_2_data[question]
           market_2_entries.append({question: data})
-      comparison_table['Market 2'].append(market_2_entries)
+      comparison_table['Polymarket'].append(market_2_entries)
       
       # Fetch Market 3 data
       market_3_entries = []
-      for desc in outcome['Market 3']:
+      for desc in outcome['Kalshi']:
           data = market_3_data[desc]
           market_3_entries.append({desc: data})
-      comparison_table['Market 3'].append(market_3_entries)
+      comparison_table['Kalshi'].append(market_3_entries)
   
 
 
   for i in range(len(comparison_table['Rate Outcome'])):
       print(f"Rate Outcome: {comparison_table['Rate Outcome'][i]}")
       print("Market 1 Data:")
-      for item in comparison_table['Market 1'][i]:
+      for item in comparison_table['ForecastTrader'][i]:
           print(item)
       print("Market 2 Data:")
-      for item in comparison_table['Market 2'][i]:
+      for item in comparison_table['Polymarket'][i]:
           print(item)
       print("Market 3 Data:")
-      for item in comparison_table['Market 3'][i]:
+      for item in comparison_table['Kalshi'][i]:
           print(item)
       print("\n")
 
