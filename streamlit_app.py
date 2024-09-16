@@ -281,15 +281,18 @@ async def print_data():
   comparison_data = []
   for outcome in rate_outcomes:
       row = {'Rate Outcome': outcome['Rate Outcome']}
-      
+      market_names = ['ForecastTrader','Polymarket','Kalshi']
       for market_num, market_data in enumerate([market_1_data, market_2_data, market_3_data], start=1):
-          market_key = f'Market {market_num}'
+          market_key = market_names[market_num]
           market_probabilities = []
           for desc in outcome[market_key]:
               data = market_data.get(desc, {})
               if 'bid_price' in data and 'ask_price' in data:
                   probability = (data['bid_price'] + data['ask_price']) / 2
                   market_probabilities.append(probability)
+              elif 'bid_price' in data:
+                  market_probabilities.append(data.get('bid_price') or data.get('ask_price'))
+
           
           if market_probabilities:
               row[market_key] = f"{sum(market_probabilities) / len(market_probabilities):.2%}"
