@@ -320,5 +320,5 @@ dx["Date"] = pd.to_datetime(dx["Date"])
 st.line_chart(
     dx.reset_index(),
     x='Date',
-    y='fed_rate'
+    y='CME_FED_WATCH'
 )
