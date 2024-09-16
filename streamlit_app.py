@@ -41,7 +41,7 @@ mf = mf[
     ~(mf["closed"])
 ]
 
-
+@st.cache_data
 def polymarket_get_bid_ask(token_id):
   ob = requests.get(f"{polymarket_endpoint}/book?token_id={token_id}").json()
   bids = ob["bids"]
@@ -61,7 +61,7 @@ mf = mf.apply(get_token_id, axis=1)
 
 
 kalshi_endpoint = "https://trading-api.kalshi.com/v1/cached/"
-
+@st.cache_data
 def kalshi_get_bid_ask(ticker_id="FED-24SEP-T5.00"):
   ob1 = requests.get(f"{kalshi_endpoint}series/FED/markets/770ff465-d3c0-441c-a3a4-3e22a76c5ada/order_book?ticker={ticker_id}").json()
   yes_bid = ob1["order_book"]["yes"]
@@ -103,7 +103,7 @@ rate_target_dict = {
 def get_ticker(conId: int):
     return f'smd+{conId}+{{"fields":["84", "86", "85", "88"],"backout":true}}'
 
-
+@st.cache_data
 async def forecast_trader_get_bid_ask(ticker_id):
   wss = 'wss://forecasttrader.interactivebrokers.com/portal.proxy/v1/etp/ws'
 
