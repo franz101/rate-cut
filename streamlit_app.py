@@ -282,7 +282,7 @@ async def print_data():
   for outcome in rate_outcomes:
       row = {'Rate Outcome': outcome['Rate Outcome']}
       market_names = ['ForecastTrader','Polymarket','Kalshi']
-      for market_num, market_data in enumerate([market_1_data, market_2_data, market_3_data], start=1):
+      for market_num, market_data in enumerate([market_1_data, market_2_data, market_3_data], start=0):
           market_key = market_names[market_num]
           market_probabilities = []
           for desc in outcome[market_key]:
