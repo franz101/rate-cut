@@ -103,7 +103,7 @@ rate_target_dict = {
 def get_ticker(conId: int):
     return f'smd+{conId}+{{"fields":["84", "86", "85", "88"],"backout":true}}'
 
-@st.cache_data
+
 async def forecast_trader_get_bid_ask(ticker_id):
   wss = 'wss://forecasttrader.interactivebrokers.com/portal.proxy/v1/etp/ws'
 
@@ -187,7 +187,7 @@ st.header("Current Rates")
 col1, col2 = st.columns(2)
 col1.metric("Current Fed Rate", f"{get_fedrate_ib():.2f}%")
 col2.metric("SOFR Implied Rate for September", f"{sofr_rate:.2f}%")
-
+@
 async def print_data():
   market_1_data = {}
   for desc, ticker_id in rate_target_dict.items():
