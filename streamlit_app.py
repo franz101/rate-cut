@@ -8,6 +8,7 @@ import asyncio
 
 polymarket_endpoint = "https://clob.polymarket.com"
 
+print("VERSION 0.1")
 @st.cache_data
 def get_markets():
     markets = list()
@@ -186,6 +187,7 @@ st.header("Current Rates")
 col1, col2 = st.columns(2)
 col1.metric("Current Fed Rate", f"{get_fedrate_ib():.2f}%")
 col2.metric("SOFR Implied Rate for September", f"{sofr_rate:.2f}%")
+
 async def print_data():
   market_1_data = {}
   for desc, ticker_id in rate_target_dict.items():
@@ -283,23 +285,25 @@ async def print_data():
       row = {'Rate Outcome': outcome['Rate Outcome']}
       market_names = ['ForecastTrader','Polymarket','Kalshi']
       for market_num, market_data in enumerate([market_1_data, market_2_data, market_3_data], start=0):
-          market_key = market_names[market_num]
-          market_probabilities = []
-          for desc in outcome[market_key]:
-              data = market_data.get(desc, {})
-              if 'bid_price' in data and 'ask_price' in data:
-                  probability = (data['bid_price'] + data['ask_price']) / 2
-                  market_probabilities.append(probability)
-              elif 'bid_price' in data:
-                  market_probabilities.append(data.get('bid_price') or data.get('ask_price'))
+        market_key = market_names[market_num]
+        market_probabilities = []
+        for desc in outcome[market_key]:
+            data = market_data.get(desc, {})
+            if 'bid_price' in data and 'ask_price' in data:
+                probability = (data['bid_price'] + data['ask_price']) / 2
+                market_probabilities.append(probability)
+            elif 'bid_price' in data:
+                market_probabilities.append(data.get('bid_price') or data.get('ask_price'))
 
           
-          if market_probabilities:
+            if market_probabilities:
               row[market_key] = f"{sum(market_probabilities) / len(market_probabilities):.2%}"
-          else:
+            else:
               row[market_key] = "N/A"
       
       comparison_data.append(row)
   comparison_df = pd.DataFrame(comparison_data)
   st.table(comparison_df)
+
+  
 asyncio.run(print_data())
