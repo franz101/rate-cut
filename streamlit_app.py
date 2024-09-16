@@ -127,16 +127,24 @@ async def forecast_trader_get_bid_ask(ticker_id):
           await websocket.send(get_ticker(ticker))
       res =  await websocket.recv()
       contract_data = json.loads(res)
+ # Improved error handling
+      def safe_float_conversion(value):
+        try:
+            return float(value.replace(",", "")) if value else float('nan')
+        except (ValueError, TypeError):
+            return float('nan')
 
-      bid = contract_data.get("84", "nan").replace(",", "")
-      ask = contract_data.get("86", "nan").replace(",", "")
-      bid_size = contract_data.get("88", "nan").replace(",", "")
-      ask_size = contract_data.get("85", "nan").replace(",", "")
+      bid = safe_float_conversion(contract_data.get("84", "nan"))
+      ask = safe_float_conversion(contract_data.get("86", "nan"))
+      bid_size = safe_float_conversion(contract_data.get("88", "nan"))
+      ask_size = safe_float_conversion(contract_data.get("85", "nan"))
+  
       return {
-          "bid_price": float(bid),
-          "ask_price": float(ask),
-          "bid_size": float(bid_size),
-          "ask_size": float(ask_size)}
+          "bid_price": bid,
+          "ask_price": ask,
+          "bid_size": bid_size,
+          "ask_size": ask_size
+      }
 
 
 
