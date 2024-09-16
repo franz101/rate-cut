@@ -314,11 +314,11 @@ dx.columns = columns
 dx = dx.iloc[1:,:columns[2:].index("(0-25)")]
 dx = dx.set_index("Date",drop=True)
 rates = ((dx.columns.str.extract(r".+\-(\d+)").astype(float) + dx.columns.str.extract(r".(\d+)").astype(float))/2).values
-dx = (dx.astype(float) * rates.reshape(1,-1)).dropna(axis=1).sum(axis=1).to_frame().rename(columns={0:"CME_FED_WATCH"})
-
+dx = (dx.astype(float) * rates.reshape(1,-1)).dropna(axis=1).sum(axis=1).to_frame().rename(columns={0:"CME_FED_WATCH"}).reset_index()
+dx["Date"] = pd.to_datetime(dx["Date"])
 
 st.line_chart(
-    dx,
-    x=dx.index,
+    dx.reset_index(),
+    x='Date',
     y='fed_rate'
 )
