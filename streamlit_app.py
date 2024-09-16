@@ -264,8 +264,6 @@ async def print_data():
       comparison_table['Market 3'].append(market_3_entries)
   
 
-  print("CURRENT RATE", fed_rate_ib["avg"].iloc[-1])
-  print("SOFR IMPLIED RATE FOR SEPTEMBER",sofr_rate)
 
   for i in range(len(comparison_table['Rate Outcome'])):
       print(f"Rate Outcome: {comparison_table['Rate Outcome'][i]}")
