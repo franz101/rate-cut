@@ -293,4 +293,4 @@ async def print_data():
       comparison_data.append(row)
   comparison_df = pd.DataFrame(comparison_data)
   st.table(comparison_df)
-asyncio.run(print_data)
+asyncio.run(print_data())
