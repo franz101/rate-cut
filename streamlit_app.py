@@ -57,7 +57,7 @@ def polymarket_get_bid_ask(token_id):
   return res
 
 mf = mf.apply(get_token_id, axis=1)
-mf[["question","outcome_Yes_id"]]
+
 
 kalshi_endpoint = "https://trading-api.kalshi.com/v1/cached/"
 
@@ -293,3 +293,4 @@ async def print_data():
       comparison_data.append(row)
   comparison_df = pd.DataFrame(comparison_data)
   st.table(comparison_df)
+asyncio.run(print_data)
