@@ -305,5 +305,23 @@ async def print_data():
   comparison_df = pd.DataFrame(comparison_data)
   st.table(comparison_df)
 
-  
+
 asyncio.run(print_data())
+
+dx =  pd.read_csv("FedMeetingHistory_20240916.csv")
+columns = dx.iloc[0,:].to_list()
+dx.columns = columns
+dx = dx.iloc[1:]
+dm = dx.melt(
+    id_vars=["Date"],
+)
+dm["rate"] = dm["variable"].str.extract(r".+\-(\d+)")
+
+st.line_chart(
+    dx.melt(
+    id_vars=["Date"],
+).dropna(),
+    x='Date',
+    y='value',
+    color='rate',
+)
