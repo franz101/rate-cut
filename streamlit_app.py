@@ -161,7 +161,7 @@ def get_fedrate_ib():
   fed_rate_ib["ts"] = pd.to_datetime(fed_rate_ib["time"],unit="s")
   return fed_rate_ib["avg"].iloc[-1]
 
-@st.cache_data
+@st.cache_data(allow_output_mutation=True)
 def get_sofr_prediction():
   d= requests.post("https://scanner.tradingview.com/futures/scan",
       json= {'columns': ['pricescale', 'minmov', 'minmove2', 'fractional', 'expiration', 'close', 'name', 'currency'],
@@ -307,7 +307,7 @@ async def print_data():
   comparison_df = pd.DataFrame(comparison_data)
   return (comparison_df)
 
-@st.cache_data
+@st.cache_data(allow_output_mutation=True)
 def get_comparision():
   return asyncio.run(print_data())
 comparision = get_comparision()
