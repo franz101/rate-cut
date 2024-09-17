@@ -23,6 +23,11 @@ def get_markets():
             break
     return markets
 
+def clear_cache_except_markets():
+    for key in st.session_state.to_dict().keys():
+        if key.startswith('cache') and 'get_markets' not in key:
+            del st.session_state[key]
+
 def get_token_id(row):
     tokens = row["tokens"]
     for token in tokens:
@@ -329,4 +334,4 @@ st.line_chart(
 def clear_cache():
     st.cache_data.clear()
 
-st.button("Refresh Data", on_click=clear_cache)
+st.button("Refresh Data", on_click=clear_cache_except_markets)
