@@ -23,10 +23,7 @@ def get_markets():
             break
     return markets
 
-def clear_cache_except_markets():
-    for key in st.session_state.to_dict().keys():
-        if key.startswith('cache') and 'get_markets' not in key:
-            del st.session_state[key]
+
 
 def get_token_id(row):
     tokens = row["tokens"]
@@ -46,7 +43,7 @@ mf = mf[
     ~(mf["closed"])
 ]
 
-@st.cache_data
+
 def polymarket_get_bid_ask(token_id):
   ob = requests.get(f"{polymarket_endpoint}/book?token_id={token_id}").json()
   bids = ob["bids"]
@@ -66,7 +63,7 @@ mf = mf.apply(get_token_id, axis=1)
 
 
 kalshi_endpoint = "https://trading-api.kalshi.com/v1/cached/"
-@st.cache_data
+
 def kalshi_get_bid_ask(ticker_id="FED-24SEP-T5.00"):
   ob1 = requests.get(f"{kalshi_endpoint}series/FED/markets/770ff465-d3c0-441c-a3a4-3e22a76c5ada/order_book?ticker={ticker_id}").json()
   yes_bid = ob1["order_book"]["yes"]
@@ -333,5 +330,10 @@ st.line_chart(
 
 def clear_cache():
     st.cache_data.clear()
+
+def clear_cache_except_markets():
+    comparision.clear()
+    sofr_rate.clear()
+    
 
 st.button("Refresh Data", on_click=clear_cache_except_markets)
