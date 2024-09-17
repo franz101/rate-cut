@@ -303,10 +303,13 @@ async def print_data():
       
       comparison_data.append(row)
   comparison_df = pd.DataFrame(comparison_data)
-  st.table(comparison_df)
+  return (comparison_df)
 
-
-asyncio.run(print_data())
+@st.cache_data
+def get_comparision():
+  return asyncio.run(print_data())
+comparision = get_comparision()
+st.table(comparision)
 
 dx =  pd.read_csv("FedMeetingHistory_20240916.csv")
 columns = dx.iloc[0,:].to_list()
@@ -322,3 +325,8 @@ st.line_chart(
     x='Date',
     y='CME_FED_WATCH'
 )
+
+def clear_cache():
+    st.cache_data.clear()
+
+st.button("Refresh Data", on_click=clear_cache)
